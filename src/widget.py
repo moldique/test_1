@@ -41,5 +41,3 @@ def get_date(date_str: str) -> str:
         return date_obj.strftime("%d.%m.%Y")
     except ValueError as e:
         raise ValueError(f"Некорректный формат даты: {date_str}") from e
-
-print(get_date("2024-03-11T02:26:18.671407"))
