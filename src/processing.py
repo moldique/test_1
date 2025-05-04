@@ -22,4 +22,3 @@ def sort_by_date(transactions: list[dict], reverse: bool = True) -> list[dict]:
         Отсортированный список транзакций
     """
     return sorted(transactions, key=lambda x: x['date'], reverse=reverse)
-
