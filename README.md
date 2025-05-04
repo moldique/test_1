@@ -11,10 +11,6 @@
 https://github.com/moldique/test_1.git
 ```
 
-2. Установите зависимости:
-```
-pip install -r requirements.txt
-```
 
 ## В коде представлена реализация следующих функций
 
