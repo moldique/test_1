@@ -41,3 +41,11 @@ def get_date(date_str: str) -> str:
         return date_obj.strftime("%d.%m.%Y")
     except ValueError as e:
         raise ValueError(f"Некорректный формат даты: {date_str}") from e
+
+
+# Код для проверки вида
+if __name__ == "__main__":
+    user_card_or_account_number = input()
+    # вводим номер карты или счета клиента
+    print(mask_account_card(user_card_or_account_number))
+    # вывод замаскированного номера карты или аккаунта

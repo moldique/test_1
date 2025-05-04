@@ -26,3 +26,8 @@ def get_mask_account(account_number: str) -> str:
 
     return f"**{str_number[-4:]}"
 
+
+# Код для проверки вида
+if __name__ == '__main__':
+        account_number = str(input())
+        print(get_mask_account(account_number))
