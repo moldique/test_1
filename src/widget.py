@@ -1,9 +1,11 @@
 from src.masks import get_mask_card_number, get_mask_account
+from datetime import datetime
+
 
 def mask_account_card(account_info: str) -> str:
     """
     Маскирует номер карты или счета в переданной строке, сохраняя тип (название карты или 'Счет')
-    :param account_info: Строка с типом и номером (например, "Visa Platinum 7000792289606361" или "Счет 73654108430135874305")
+    :param account_info: Строка с типом и номером (например "Visa Platinum 7000792289606361")
     :return: Строка с маскированным номером
     """
     # Разделяем строку на части (тип и номер)
@@ -26,7 +28,6 @@ def mask_account_card(account_info: str) -> str:
 
     return f"{account_type} {masked_number}"
 
-from datetime import datetime
 
 def get_date(date_str: str) -> str:
     """
