@@ -2,12 +2,11 @@ import functools
 from datetime import datetime
 
 
-def log(filename=None):
-    """
-    Декоратор для логирования выполнения функций.
+def log(filename: str | None = None):
+    """Декоратор для логирования выполнения функций.
 
     Args:
-        filename: Опциональное имя файла для записи логов (str или None)
+        filename: Имя файла для логов или None для вывода в консоль
     """
 
     def decorator(func):
@@ -46,9 +45,3 @@ def log(filename=None):
         return wrapper
 
     return decorator
-
-@log(filename="mylog.txt")
-def my_function(x, y):
-    return x + y
-
-my_function(1, 2)
