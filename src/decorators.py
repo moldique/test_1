@@ -2,16 +2,15 @@ import functools
 from datetime import datetime
 
 
-def log(filename: str | None = None):
+def log(filename: str | None = None):  # type: ignore
     """Декоратор для логирования выполнения функций.
-
     Args:
         filename: Имя файла для логов или None для вывода в консоль
     """
 
-    def decorator(func):
+    def decorator(func):  # type: ignore
         @functools.wraps(func)
-        def wrapper(*args, **kwargs):
+        def wrapper(*args, **kwargs):  # type: ignore
             func_name = func.__name__
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             log_message = f"{timestamp} - {func_name}"
