@@ -1,8 +1,14 @@
 import json
-
-import requests
+import logging
 
 from src.external_api import convert_to_rub
+
+logger = logging.getLogger('save_to_logs_units')
+logger.setLevel(logging.DEBUG)
+file_handler = logging.FileHandler('../logs/save_to_logs_units.log', encoding='utf-8')
+file_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s: %(message)s')
+file_handler.setFormatter(file_formatter)
+logger.addHandler(file_handler)
 
 
 def load_transactions(file_path) -> list:
@@ -14,10 +20,12 @@ def load_transactions(file_path) -> list:
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
             transactions = json.load(f)
+            logger.info(f'открытие файла: {file_path}')
         if isinstance(transactions, list):
             return transactions
         return []
-    except(json.JSONDecodeError, OSError):
+    except Exception as ex:
+        logger.error(f'Файл не найден или произошла ошибка: {ex}, создан пустой список')
         return []
 
 
@@ -26,6 +34,7 @@ def amount_transaction():
      Функция, которая принимает на вход транзакцию и возвращает сумму транзакции (amount) в рублях
     """
     try:
+        logger.info('Получение транзакций')
         # Загрузка транзакций
         transactions = load_transactions('../data/operations.json')
         print(f"Загружено транзакций: {len(transactions)}")
@@ -34,6 +43,7 @@ def amount_transaction():
             print("Нет данных для обработки.")
             return
 
+        logger.info('Обработка каждой транзакции и суммирование суммы')
         # Обработка каждой транзакции
         total_rub = 0.0
         print("\nДетали транзакций:")
@@ -59,12 +69,15 @@ def amount_transaction():
                 )
             except (KeyError, ValueError) as e:
                 print(f"{idx}. Ошибка обработки транзакции: {e}")
+                logger.error(f'Произошла ошибка обработки транзакций: {e}')
 
         # Итог
         print(f"\nОбщая сумма выполненных транзакций: {total_rub:.2f} RUB")
+        logger.info(f'Вывод итоговой суммы пользователю: {total_rub:.2f}')
 
     except Exception as e:
         print(f"Произошла ошибка: {e}")
+        logger.error(f'Произошла ошибка: {e}')
 
 
 if __name__ == "__main__":
