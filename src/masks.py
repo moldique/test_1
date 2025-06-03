@@ -1,5 +1,8 @@
 import logging
+import os
 
+# Создаем директорию для логов, если её нет
+os.makedirs('../logs', exist_ok=True)
 
 logger = logging.getLogger('save_to_log_masks')
 logger.setLevel(logging.DEBUG)
@@ -14,6 +17,7 @@ def get_mask_card_number(card_number: str) -> str:
     Маскирует номер банковской карты в формате XXXX XX** **** XXXX
     :param card_number: Номер карты (может содержать пробелы и другие разделители)
     :return: Маскированный номер карты
+    :raises ValueError: Если номер карты невалидный
     """
     try:
         # Удаляем все нецифровые символы
@@ -25,10 +29,12 @@ def get_mask_card_number(card_number: str) -> str:
             raise ValueError("Номер карты должен содержать 16 цифр")
 
         # Форматируем номер карты с маскировкой
-        logger.info('форматирование и маскировка номера карты')
-        return f"{digits[:4]} {digits[4:6]}** **** {digits[-4:]}"
+        masked = f"{digits[:4]} {digits[4:6]}** **** {digits[-4:]}"
+        logger.info('Форматирование и маскировка номера карты')
+        return masked
     except Exception as ex:
         logger.error(f'Произошла ошибка: {ex}')
+        raise  # Пробрасываем исключение дальше
 
 
 def get_mask_account(account_number: str) -> str:
@@ -36,6 +42,7 @@ def get_mask_account(account_number: str) -> str:
     Маскирует номер банковского счета в формате **XXXX
     :param account_number: Номер счета (может содержать пробелы и другие разделители)
     :return: Маскированный номер счета
+    :raises ValueError: Если номер счета невалидный
     """
     try:
         # Удаляем все нецифровые символы
@@ -46,14 +53,15 @@ def get_mask_account(account_number: str) -> str:
         if len(digits) < 4:
             raise ValueError("Номер счета должен содержать минимум 4 цифры")
 
-        logger.info('форматирование и маскировка номера счета')
         # Возвращаем маскированный номер
-        return f"**{digits[-4:]}"
+        masked = f"**{digits[-4:]}"
+        logger.info('Форматирование и маскировка номера счета')
+        return masked
     except Exception as ex:
         logger.error(f'Произошла ошибка: {ex}')
+        raise  # Пробрасываем исключение дальше
 
 
-# Код для проверки вида
 if __name__ == '__main__':
     account_number = str(input())
     print(get_mask_account(account_number))
