@@ -2,7 +2,7 @@ from unittest.mock import MagicMock, mock_open, patch
 
 import pytest
 
-from src.file_reader import file_reader_csv, file_reader_exel
+from src.file_reader import file_reader_csv, file_reader_excel
 
 # Фиктивные данные для тестов
 EXCEL_MOCK_DATA = [{
@@ -55,7 +55,7 @@ def test_file_reader_excel():
 
         mock_read_excel.return_value = mock_df
 
-        result = file_reader_exel('dummy_path.xlsx')
+        result = file_reader_excel('dummy_path.xlsx')
 
         assert len(result) == 1
         assert result[0]['id'] == 650703.0

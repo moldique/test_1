@@ -6,10 +6,16 @@ def filter_by_currency(transactions: list[Dict[str, Any]], currency: str) -> Ite
     Генератор, который фильтрует транзакции по заданной валюте.
     """
     for transaction in transactions:
-        operation_amount = transaction.get("operationAmount", {})
-        transaction_currency = operation_amount.get("currency", {}).get("code")
-        if transaction_currency == currency:
-            yield transaction
+        # Проверяем новый формат (прямое поле currency_code)
+        if 'currency_code' in transaction:
+            if transaction['currency_code'] == currency:
+                yield transaction
+        # Проверяем старый формат (вложенная структура)
+        else:
+            operation_amount = transaction.get("operationAmount", {})
+            transaction_currency = operation_amount.get("currency", {}).get("code")
+            if transaction_currency == currency:
+                yield transaction
 
 
 def transaction_descriptions(transactions: list[Dict[str, Any]]) -> Iterator[str]:

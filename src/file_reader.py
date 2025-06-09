@@ -3,7 +3,7 @@ import csv
 import pandas as pd
 
 
-def file_reader_csv(csv_path):
+def file_reader_csv(csv_path: str) -> list[dict]:
     """
     Читает CSV файл и возвращает список словарей с данными.
 
@@ -17,12 +17,23 @@ def file_reader_csv(csv_path):
         return data
 
 
-def file_reader_exel(exel_path):
+def file_reader_excel(excel_path: str) -> list[dict]:
     """
     Читает Excel файл и возвращает список словарей с данными.
 
     Каждая строка Excel файла преобразуется в словарь, где ключи соответствуют названиям столбцов.
     """
-    df = pd.read_excel(exel_path)
-    data = df.to_dict('records')
-    return data
+    try:
+        df = pd.read_excel(excel_path)
+        return df.to_dict('records')
+    except FileNotFoundError:
+        print(f"Ошибка: файл не найден по пути {excel_path}")
+        return []
+    except Exception as e:
+        print(f"Произошла ошибка при чтении файла: {e}")
+        return []
+
+
+if __name__ == "__main__":
+    print(file_reader_csv('..//data/transactions.csv'))
+    print(file_reader_excel('..//data/transactions_excel.xlsx'))
